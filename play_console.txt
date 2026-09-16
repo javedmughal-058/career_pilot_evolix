@@ -1,0 +1,46 @@
+Short description
+
+Create professional resumes offline with modern templates and easy PDF export.
+
+That stays within the 80-character limit.
+
+Full description
+
+CareerPilot - Resume Builder helps you create professional, polished resumes quickly and easily from your mobile device.
+
+Build your resume step by step, choose from modern resume templates, customize the sections you want to include, preview your resume, and export it as a PDF when you are ready.
+
+CareerPilot is designed with an offline-first experience, so you can create and edit your resume without signing in. Your resume information can be saved locally on your device, allowing you to continue working even without an internet connection.
+
+If you want to keep your resumes synchronized across devices, you can optionally sign in with Google and enable cloud sync.
+
+CareerPilot gives you control over the structure of your resume. You can enable, disable, and organize sections based on your experience and the type of job you are applying for.
+
+Key features include:
+
+• Create resumes without creating an account
+• Work offline and save resume data locally
+• Choose from professional resume templates
+• Free and premium template options
+• Customize your resume layout and sections
+• Enable or disable sections such as Projects, Achievements, Certifications, Languages, Interests, and References
+• Add work experience and education details
+• Add skills, projects, certifications, and achievements
+• Add a professional summary and contact information
+• Reorder resume sections
+• Preview your resume before exporting
+• Generate and export resumes as PDF files
+• Optional Google Sign-In for cloud synchronization
+• Keep multiple resumes for different job applications
+• Adjustable application font size for improved readability
+• Clean and minimal interface using modern design principles
+
+CareerPilot is suitable for students, graduates, professionals, freelancers, and anyone who wants to create a well-structured resume directly from their phone.
+
+Some resume templates are available for free, while selected premium templates may require an in-app purchase.
+
+Your account is optional for resume creation. You can continue using the core resume-building features offline without signing in. Google Sign-In is only required if you choose to use cloud synchronization.
+
+CareerPilot focuses on providing a simple and flexible resume-building experience while keeping you in control of your information and resume structure.
+
+Developed by Evolix Technologies.

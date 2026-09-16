@@ -1,0 +1,15 @@
+.dart_tool/
+.packages
+.pub/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+android/.gradle/
+ios/Pods/
+*.jks
+*.keystore
+*.p12
+android/key.properties
+google-services.json
+GoogleService-Info.plist
+lib/firebase_options.dart

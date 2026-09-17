@@ -13,3 +13,5 @@ android/key.properties
 google-services.json
 GoogleService-Info.plist
 lib/firebase_options.dart
+config.bat
+node_modules

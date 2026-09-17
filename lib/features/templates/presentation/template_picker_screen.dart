@@ -190,7 +190,7 @@ class _TemplateThumbnail extends StatelessWidget {
         asset,
         width: 82,
         height: 104,
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
         errorBuilder: (_, _, _) => const SizedBox(
           width: 82,
           height: 104,

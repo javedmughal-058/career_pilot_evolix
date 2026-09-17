@@ -98,7 +98,7 @@ class _TemplatePreview extends StatelessWidget {
         asset,
         width: double.infinity,
         height: double.infinity,
-        fit: BoxFit.cover,
+        fit: BoxFit.contain,
         filterQuality: FilterQuality.high,
         errorBuilder: (_, _, _) => const Center(
           child: Icon(

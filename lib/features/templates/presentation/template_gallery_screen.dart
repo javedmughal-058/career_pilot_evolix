@@ -1,113 +1,176 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../domain/template_catalog.dart';
+import '../../../core/theme/app_theme.dart';
+import '../../../core/utils/app_scaling.dart';
+import '../../../core/widgets/design_system.dart';
 import '../../purchases/presentation/purchase_provider.dart';
+import '../domain/template_catalog.dart';
 
 class TemplateGalleryScreen extends StatefulWidget {
   const TemplateGalleryScreen({super.key});
-
   @override
   State<TemplateGalleryScreen> createState() => _TemplateGalleryScreenState();
 }
 
 class _TemplateGalleryScreenState extends State<TemplateGalleryScreen> {
-  bool _didPrecache = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_didPrecache) return;
-    _didPrecache = true;
-    for (final template in TemplateCatalog.templates) {
-      precacheImage(AssetImage(template.thumbnailAsset), context);
-    }
-  }
-
+  String filter = 'All';
   @override
   Widget build(BuildContext c) {
     final pay = c.watch<PurchaseProvider>();
+    final items = TemplateCatalog.templates
+        .where(
+          (t) =>
+              filter == 'All' ||
+              (filter == 'Free' && !t.isPremium) ||
+              (filter == 'Premium' && t.isPremium),
+        )
+        .toList();
     return Scaffold(
-      appBar: AppBar(title: const Text('Templates')),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(20),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 14,
-          mainAxisSpacing: 14,
-          childAspectRatio: .66,
-        ),
-        itemCount: TemplateCatalog.templates.length,
-        itemBuilder: (x, i) {
-          final t = TemplateCatalog.templates[i];
-          final owned = pay.owns(t.productId);
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(child: _TemplatePreview(asset: t.thumbnailAsset)),
-                  const SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          t.name,
-                          style: const TextStyle(fontWeight: FontWeight.w800),
-                        ),
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(22.w, 22.h, 22.w, 0),
+              sliver: SliverToBoxAdapter(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const ScreenHeading(
+                      title: 'Templates',
+                      subtitle: 'Choose a design and make it yours.',
+                    ),
+                    SizedBox(height: 16.h),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: ['All', 'Free', 'Premium']
+                            .map(
+                              (v) => Padding(
+                                padding: EdgeInsets.only(right: 8.w),
+                                child: ChoiceChip(
+                                  label: Text(v),
+                                  selected: filter == v,
+                                  selectedColor: AppColors.amber,
+                                  onSelected: (_) => setState(() => filter = v),
+                                ),
+                              ),
+                            )
+                            .toList(),
                       ),
-                      if (t.isPremium)
-                        Icon(
-                          owned ? Icons.verified : Icons.workspace_premium,
-                          color: owned ? Colors.green : Colors.amber,
-                          size: 18,
-                        ),
-                    ],
-                  ),
-                  Text(
-                    t.isPremium
-                        ? (owned ? 'Owned' : pay.price(t.productId!))
-                        : 'Free',
-                    style: Theme.of(c).textTheme.bodySmall,
-                  ),
-                ],
+                    ),
+                    SizedBox(height: 18.h),
+                  ],
+                ),
               ),
             ),
-          );
-        },
+            SliverPadding(
+              padding: EdgeInsets.fromLTRB(22.w, 0, 22.w, 110.h),
+              sliver: SliverGrid.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 14.w,
+                  mainAxisSpacing: 14.h,
+                  childAspectRatio: .62,
+                ),
+                itemCount: items.length,
+                itemBuilder: (x, i) {
+                  final t = items[i];
+                  final owned = pay.owns(t.productId);
+                  return PremiumCard(
+                    padding: EdgeInsets.all(10.r),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(child: _TemplatePreview(template: t)),
+                        SizedBox(height: 10.h),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                t.name,
+                                style: Theme.of(c).textTheme.titleSmall
+                                    ?.copyWith(fontWeight: FontWeight.w900),
+                              ),
+                            ),
+                            StatusPill(
+                              t.isPremium
+                                  ? (owned ? 'Owned' : 'Premium')
+                                  : 'Free',
+                              premium: t.isPremium,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 4.h),
+                        Text(
+                          t.description,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(c).textTheme.bodySmall
+                              ?.copyWith(color: AppColors.muted),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
 class _TemplatePreview extends StatelessWidget {
-  const _TemplatePreview({required this.asset});
+  const _TemplatePreview({required this.template});
 
-  final String asset;
+  final ResumeTemplateInfo template;
 
   @override
   Widget build(BuildContext context) => ClipRRect(
-    borderRadius: BorderRadius.circular(12),
-    child: DecoratedBox(
-      decoration: BoxDecoration(
-        color: const Color(0xFFF4FAFF),
-        border: Border.all(color: const Color(0xFFE2E8F0)),
-      ),
-      child: Image.asset(
-        asset,
-        width: double.infinity,
-        height: double.infinity,
-        fit: BoxFit.contain,
-        filterQuality: FilterQuality.high,
-        errorBuilder: (_, _, _) => const Center(
-          child: Icon(
-            Icons.description_outlined,
-            size: 58,
-            color: Colors.blueGrey,
+    borderRadius: BorderRadius.circular(14.r),
+    child: Stack(
+      fit: StackFit.expand,
+      children: [
+        ColoredBox(
+          color: Colors.white,
+          child: ImageFiltered(
+            imageFilter: template.isAvailable
+                ? ui.ImageFilter.blur()
+                : ui.ImageFilter.blur(sigmaX: 3.5, sigmaY: 3.5),
+            child: Image.asset(
+              template.thumbnailAsset,
+              width: double.infinity,
+              fit: BoxFit.contain,
+              alignment: Alignment.topCenter,
+            ),
           ),
         ),
-      ),
+        if (!template.isAvailable) ...[
+          ColoredBox(color: Colors.white.withValues(alpha: .48)),
+          Center(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: AppColors.ink.withValues(alpha: .82),
+                borderRadius: BorderRadius.circular(999.r),
+              ),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                child: Text(
+                  'Coming soon',
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ],
     ),
   );
 }

@@ -7,22 +7,27 @@ class ResumeTemplateInfo {
     required this.description,
     required this.isPremium,
     required this.thumbnailAsset,
+    required this.defaultAccent,
+    this.isAvailable = true,
     this.productId,
   });
   final String id, name, description;
   final bool isPremium;
   final String thumbnailAsset;
+  final String defaultAccent;
+  final bool isAvailable;
   final String? productId;
 }
 
 class TemplateCatalog {
   static const templates = <ResumeTemplateInfo>[
     ResumeTemplateInfo(
-      id: 'modern',
-      name: 'Modern',
-      description: 'Balanced two-column layout',
+      id: 'classic',
+      name: 'Classic',
+      description: 'Traditional recruiter-friendly format',
       isPremium: false,
-      thumbnailAsset: 'assets/templates/thumbnails/Template - 2.jpg',
+      thumbnailAsset: 'assets/templates/thumbnails/Template - 5.jpg',
+      defaultAccent: '#0C5066',
     ),
     ResumeTemplateInfo(
       id: 'minimal',
@@ -30,6 +35,16 @@ class TemplateCatalog {
       description: 'Clean ATS-friendly document',
       isPremium: false,
       thumbnailAsset: 'assets/templates/thumbnails/Template - 3.jpg',
+      defaultAccent: '#092049',
+    ),
+    ResumeTemplateInfo(
+      id: 'modern',
+      name: 'Modern',
+      description: 'Balanced two-column layout',
+      isPremium: false,
+      thumbnailAsset: 'assets/templates/thumbnails/Template - 2.jpg',
+      defaultAccent: '#0F4C81',
+      isAvailable: false,
     ),
     ResumeTemplateInfo(
       id: 'professional',
@@ -37,29 +52,19 @@ class TemplateCatalog {
       description: 'Classic business layout',
       isPremium: false,
       thumbnailAsset: 'assets/templates/thumbnails/Template - 1.jpg',
+      defaultAccent: '#0B3B69',
+      isAvailable: false,
     ),
-    ResumeTemplateInfo(
-      id: 'classic',
-      name: 'Classic',
-      description: 'Traditional recruiter-friendly format',
-      isPremium: false,
-      thumbnailAsset: 'assets/templates/thumbnails/Template - 5.jpg',
-    ),
+
     ResumeTemplateInfo(
       id: 'executive',
       name: 'Executive',
       description: 'Premium leadership profile',
-      isPremium: true,
+      isPremium: false,
       thumbnailAsset: 'assets/templates/thumbnails/Template - 4.jpg',
+      defaultAccent: '#B68A2E',
+      isAvailable: false,
       productId: AppConstants.productExecutive,
-    ),
-    ResumeTemplateInfo(
-      id: 'signature',
-      name: 'Signature',
-      description: 'Elegant editorial layout',
-      isPremium: true,
-      thumbnailAsset: 'assets/templates/thumbnails/Template - 7.jpg',
-      productId: AppConstants.productSignature,
     ),
     ResumeTemplateInfo(
       id: 'tech',
@@ -67,7 +72,19 @@ class TemplateCatalog {
       description: 'Modern engineering-focused layout',
       isPremium: true,
       thumbnailAsset: 'assets/templates/thumbnails/Template - 6.jpg',
+      defaultAccent: '#0C9EA0',
+      isAvailable: true,
       productId: AppConstants.productTech,
+    ),
+    ResumeTemplateInfo(
+      id: 'signature',
+      name: 'Signature',
+      description: 'Elegant editorial layout',
+      isPremium: true,
+      thumbnailAsset: 'assets/templates/thumbnails/Template - 7.jpg',
+      defaultAccent: '#C98383',
+      isAvailable: false,
+      productId: AppConstants.productSignature,
     ),
     ResumeTemplateInfo(
       id: 'creative',
@@ -75,6 +92,8 @@ class TemplateCatalog {
       description: 'Premium portfolio-style presentation',
       isPremium: true,
       thumbnailAsset: 'assets/templates/thumbnails/Template - 8 Paid.jpg',
+      defaultAccent: '#5B5BEA',
+      isAvailable: false,
       productId: AppConstants.productProPack,
     ),
   ];

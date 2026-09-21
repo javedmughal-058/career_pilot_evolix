@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 
-import '../data/auth_service.dart';
 import '../../sync/data/sync_service.dart';
+import '../data/auth_service.dart';
 
 class AuthProvider extends ChangeNotifier {
   AuthProvider(this._auth, this._sync) {
@@ -41,9 +41,12 @@ class AuthProvider extends ChangeNotifier {
 
   Future<void> syncNow() async {
     busy = true;
+    error = null;
     notifyListeners();
     try {
       await _sync.sync();
+    } catch (e) {
+      error = 'Sync failed. Your local resumes are safe. ${e.toString()}';
     } finally {
       busy = false;
       notifyListeners();

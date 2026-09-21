@@ -20,6 +20,12 @@ class SettingsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> setDarkMode(bool enabled) async {
+    settings = settings.copyWith(darkMode: enabled);
+    await _db.saveSettings(settings);
+    notifyListeners();
+  }
+
   Future<void> completeOnboarding() async {
     settings = settings.copyWith(onboardingSeen: true);
     await _db.saveSettings(settings);

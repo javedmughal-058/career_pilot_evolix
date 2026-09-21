@@ -9,9 +9,17 @@ class ContactInfo {
     this.location = '',
     this.website = '',
     this.linkedIn = '',
+    this.dateOfBirth = '',
     this.photoPath,
   });
-  final String fullName, jobTitle, email, phone, location, website, linkedIn;
+  final String fullName,
+      jobTitle,
+      email,
+      phone,
+      location,
+      website,
+      linkedIn,
+      dateOfBirth;
   final String? photoPath;
   ContactInfo copyWith({
     String? fullName,
@@ -21,6 +29,7 @@ class ContactInfo {
     String? location,
     String? website,
     String? linkedIn,
+    String? dateOfBirth,
     String? photoPath,
     bool clearPhoto = false,
   }) => ContactInfo(
@@ -31,6 +40,7 @@ class ContactInfo {
     location: location ?? this.location,
     website: website ?? this.website,
     linkedIn: linkedIn ?? this.linkedIn,
+    dateOfBirth: dateOfBirth ?? this.dateOfBirth,
     photoPath: clearPhoto ? null : (photoPath ?? this.photoPath),
   );
   Map<String, dynamic> toJson() => {
@@ -41,6 +51,7 @@ class ContactInfo {
     'location': location,
     'website': website,
     'linkedIn': linkedIn,
+    'dateOfBirth': dateOfBirth,
     'photoPath': photoPath,
   };
   factory ContactInfo.fromJson(Map<String, dynamic> j) => ContactInfo(
@@ -51,6 +62,7 @@ class ContactInfo {
     location: j['location'] ?? '',
     website: j['website'] ?? '',
     linkedIn: j['linkedIn'] ?? '',
+    dateOfBirth: j['dateOfBirth'] ?? '',
     photoPath: j['photoPath'],
   );
 }
@@ -314,8 +326,8 @@ class ResumeDocument {
     references: const [],
     customSections: const {},
     sections: defaultSections(),
-    templateId: 'modern',
-    accentColor: '#2563EB',
+    templateId: 'classic',
+    accentColor: '#0C5066',
     templateFontScale: 1,
     showPhoto: true,
     createdAt: DateTime.now(),
@@ -432,8 +444,8 @@ class ResumeDocument {
     sections: (j['sections'] as List? ?? [])
         .map((e) => ResumeSectionConfig.fromJson(Map<String, dynamic>.from(e)))
         .toList(),
-    templateId: j['templateId'] ?? 'modern',
-    accentColor: j['accentColor'] ?? '#2563EB',
+    templateId: j['templateId'] ?? 'classic',
+    accentColor: j['accentColor'] ?? '#0C5066',
     templateFontScale: (j['templateFontScale'] as num? ?? 1).toDouble(),
     showPhoto: j['showPhoto'] ?? true,
     createdAt: DateTime.tryParse(j['createdAt'] ?? '') ?? DateTime.now(),

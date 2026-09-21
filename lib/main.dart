@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'firebase_options.dart';
+
 import 'app.dart';
 import 'core/database/app_database.dart';
 import 'features/auth/data/auth_service.dart';
@@ -15,6 +15,7 @@ import 'features/resume/data/pdf_resume_service.dart';
 import 'features/resume/presentation/resume_provider.dart';
 import 'features/settings/presentation/settings_provider.dart';
 import 'features/sync/data/sync_service.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -3,18 +3,6 @@
 
 This revision is explicitly configured for **Flutter 3.47.0** and **Dart 3.13+**. See `docs/FLUTTER_3_47.md`.
 
-On Windows you can bootstrap native folders with:
-
-```bat
-setup_flutter_3_47.bat
-```
-
-On macOS/Linux:
-
-```bash
-./setup_flutter_3_47.sh
-```
-
 The scripts generate Android/iOS platform projects using *your installed Flutter 3.47.0 SDK*, which is preferable to shipping stale generated Gradle/Xcode files.
  - Resume Builder
 

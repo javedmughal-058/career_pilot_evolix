@@ -39,7 +39,11 @@ class PurchaseService {
 
   Future<void> buy(String productId) async {
     final p = products.where((e) => e.id == productId).firstOrNull;
-    if (p == null) throw StateError('Product not loaded: $productId');
+    if (p == null) {
+      throw StateError(
+        'This purchase is not available yet. Please use a Play Store test build or try again later.',
+      );
+    }
     await _iap.buyNonConsumable(
       purchaseParam: PurchaseParam(productDetails: p),
     );

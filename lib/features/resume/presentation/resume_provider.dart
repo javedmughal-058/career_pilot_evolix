@@ -70,7 +70,7 @@ class ResumeProvider extends ChangeNotifier {
     if (r == null) return;
     await save(
       r.copyWith(
-        sections: r.sections
+        sections: _completeSections(r)
             .map((e) => e.id == id ? e.copyWith(enabled: enabled) : e)
             .toList(),
       ),
@@ -80,7 +80,7 @@ class ResumeProvider extends ChangeNotifier {
   Future<void> reorderSections(int oldIndex, int newIndex) async {
     final r = current;
     if (r == null) return;
-    final list = [...r.sections]..sort((a, b) => a.order.compareTo(b.order));
+    final list = _completeSections(r);
     if (newIndex > oldIndex) newIndex--;
     final item = list.removeAt(oldIndex);
     list.insert(newIndex, item);
@@ -95,7 +95,7 @@ class ResumeProvider extends ChangeNotifier {
     if (r == null) return;
     final id = 'custom_${_uuid.v4()}';
     final sections = [
-      ...r.sections,
+      ..._completeSections(r),
       ResumeSectionConfig(
         id: id,
         type: ResumeSectionType.custom,
@@ -106,5 +106,16 @@ class ResumeProvider extends ChangeNotifier {
     ];
     final custom = {...r.customSections, id: <NamedDetailItem>[]};
     await save(r.copyWith(sections: sections, customSections: custom));
+  }
+
+  List<ResumeSectionConfig> _completeSections(ResumeDocument r) {
+    final byId = {for (final section in r.sections) section.id: section};
+    final defaults = ResumeDocument.defaultSections()
+        .map((section) => byId[section.id] ?? section)
+        .toList();
+    final custom = r.sections
+        .where((section) => section.type == ResumeSectionType.custom)
+        .toList();
+    return [...defaults, ...custom]..sort((a, b) => a.order.compareTo(b.order));
   }
 }
